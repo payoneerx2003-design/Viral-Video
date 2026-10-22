@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VIRAL HOT VIDEOS - 18+ Portal</title>
+    
+    <link rel="icon" id="faviconLogo" href="https://img.icons8.com/color/96/18-plus.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root { 
+            --theme: #ff007f; 
+            --theme-accent: #9900ff; 
+            --bg-color: #050308;
+            --card-bg: rgba(20, 15, 30, 0.75);
+            --border-color: rgba(255, 0, 127, 0.2);
+            --text-main: #ffffff; 
+            --text-muted: #b8b2c8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Hind Siliguri', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; padding-bottom: 60px; }
+
+        header {
+            background: rgba(10, 5, 15, 0.9);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 20px;
+            position: sticky; top: 0; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .brand-logo { display: flex; align-items: center; gap: 12px; }
+        .brand-logo img { width: 42px; height: 42px; object-fit: contain; border-radius: 8px; }
+        .brand-text { font-size: 18px; font-weight: 800; background: linear-gradient(135deg, #fff 0%, var(--theme) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 8px; }
+        .age-badge { background: var(--theme); color: #fff; font-size: 11px; font-weight: 900; padding: 2px 8px; border-radius: 4px; box-shadow: 0 0 10px rgba(255,0,127,0.5); }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px 15px; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .video-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; overflow: hidden; cursor: pointer; transition: 0.3s; }
+        .video-card:hover { border-color: var(--theme); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255,0,127,0.2); }
+
+        .thumbnail-box { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; }
+        .thumbnail-box img { width: 100%; height: 100%; object-fit: cover; }
+        .play-btn-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 48px; height: 48px; background: rgba(255, 0, 127, 0.9); border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 15px rgba(255,0,127,0.6); }
+
+        .video-info { padding: 12px 15px; }
+        .video-title { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 10px; }
+        .video-stats { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9); z-index: 2000;
+            display: none; justify-content: center; align-items: center; padding: 15px;
+        }
+
+        .modal-card {
+            background: #120a1f; border: 2px solid var(--theme);
+            border-radius: 16px; max-width: 500px; width: 100%; padding: 25px; text-align: center; position: relative;
+            box-shadow: 0 0 30px rgba(255,0,127,0.3);
+        }
+
+        .close-modal { position: absolute; top: 12px; right: 15px; background: none; border: none; color: #aaa; font-size: 20px; cursor: pointer; }
+
+        .action-btn {
+            background: linear-gradient(135deg, var(--theme), var(--theme-accent));
+            color: #fff; border: none; padding: 12px 25px; border-radius: 30px;
+            font-size: 15px; font-weight: 700; cursor: pointer; width: 100%; margin-top: 15px;
+            box-shadow: 0 5px 15px rgba(255, 0, 127, 0.4);
+        }
+
+        .video-player-box { display: none; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; overflow: hidden; margin-top: 10px; }
+        .video-player-box video { width: 100%; height: 100%; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="brand-logo">
+        <img id="siteLogoImg" src="https://img.icons8.com/color/96/18-plus.png" alt="Logo">
+        <div class="brand-text">VIRAL HOT VIDEOS <span class="age-badge">18+ ONLY</span></div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="video-grid" id="videoGrid"></div>
+</div>
+
+<div class="modal-overlay" id="unlockModal">
+    <div class="modal-card">
+        <button class="close-modal" onclick="closeModal()">&times;</button>
+        <h3 id="modalVideoTitle" style="font-size:16px; color:#fff; margin-bottom:10px;">ভিডিও শিরোনাম</h3>
+
+        <div id="unlockSection">
+            <p style="font-size:13px; color:var(--text-muted);">সম্পূর্ণ ভিডিওটি দেখতে নিচের অ্যাডটিতে ভিজিট করুন:</p>
+            
+            <button class="action-btn" onclick="handleSingleAdClick()">
+                <span>অ্যাড ভিজিট করুন এবং ভিডিও আনলক করুন</span>
+            </button>
+        </div>
+
+        <div class="video-player-box" id="playerBox">
+            <!-- অটো-প্লে এরর এড়াতে autoplay বাদ দেওয়া হয়েছে, ইউজার কন্ট্রোল দিয়ে প্লে করতে পারবে -->
+            <video id="mainVideoPlayer" controls></video>
+        </div>
+    </div>
+</div>
+
+<script>
+    const ADSTERRA_DIRECT_LINK = "https://www.profitableratecpmnetwork.com/xyze22qb1?key=472659c5ea753bdbd2c2cb94751c9ac6";
+    let selectedVideoData = null;
+
+    function loadSiteLogo() {
+        const savedLogo = localStorage.getItem('portal_logo');
+        if (savedLogo) {
+            document.getElementById('siteLogoImg').src = savedLogo;
+            document.getElementById('faviconLogo').href = savedLogo;
+        }
+    }
+
+    function getStoredVideos() {
+        const saved = localStorage.getItem('portal_videos');
+        return saved ? JSON.parse(saved) : [
+            {
+                id: 1,
+                title: "রোমান্টিক ভাইরাল এক্সক্লুসিভ ১৮+ ক্লিপ 🥵",
+                thumbnail: "uploads/thumbnails/thumb_1784344858_8726.jpg",
+                videoSrc: "https://www.w3schools.com/html/mov_bbb.mp4",
+                views: "483.5K", likes: "58K", comments: "4.1K"
+            }
+        ];
+    }
+
+    function renderVideoGrid() {
+        loadSiteLogo();
+        const videos = getStoredVideos();
+        const grid = document.getElementById('videoGrid');
+        grid.innerHTML = '';
+        videos.forEach(video => {
+            const card = document.createElement('div');
+            card.className = 'video-card';
+            card.onclick = () => openUnlockModal(video.id);
+            card.innerHTML = `
+                <div class="thumbnail-box">
+                    <img src="${video.thumbnail || 'uploads/thumbnails/thumb_1784344858_8726.jpg'}" alt="Thumb">
+                    <div class="play-btn-overlay"><i class="fas fa-play" style="color:#fff;"></i></div>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">${video.title}</div>
+                    <div class="video-stats">
+                        <span>👁️ ${video.views}</span><span>❤️ ${video.likes}</span>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    function openUnlockModal(videoId) {
+        const videos = getStoredVideos();
+        selectedVideoData = videos.find(v => v.id === videoId);
+        if (!selectedVideoData) return;
+
+        sessionStorage.setItem('active_video_id', videoId);
+        document.getElementById('modalVideoTitle').innerText = selectedVideoData.title;
+
+        if (sessionStorage.getItem('ad_clicked_' + videoId) === 'true') {
+            showPlayerDirectly();
+        } else {
+            document.getElementById('unlockSection').style.display = 'block';
+            document.getElementById('playerBox').style.display = 'none';
+        }
+
+        document.getElementById('unlockModal').style.display = 'flex';
+    }
+
+    function showPlayerDirectly() {
+        document.getElementById('unlockSection').style.display = 'none';
+        document.getElementById('playerBox').style.display = 'block';
+        const player = document.getElementById('mainVideoPlayer');
+        player.src = selectedVideoData.videoSrc || "https://www.w3schools.com/html/mov_bbb.mp4";
+    }
+
+    function closeModal() {
+        document.getElementById('unlockModal').style.display = 'none';
+        document.getElementById('mainVideoPlayer').pause();
+    }
+
+    function handleSingleAdClick() {
+        window.open(ADSTERRA_DIRECT_LINK, '_blank');
+
+        if (selectedVideoData) {
+            sessionStorage.setItem('ad_clicked_' + selectedVideoData.id, 'true');
+        }
+
+        showPlayerDirectly();
+    }
+
+    window.onload = function() {
+        renderVideoGrid();
+        const activeVideoId = sessionStorage.getItem('active_video_id');
+        const adClicked = sessionStorage.getItem('ad_clicked_' + activeVideoId);
+        if (activeVideoId && adClicked === 'true') {
+            openUnlockModal(Number(activeVideoId));
+        }
+    };
+</script>
+
+</body>
+</html>

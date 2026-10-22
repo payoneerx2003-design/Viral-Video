@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Admin Panel - 18+</title>
+    <link rel="icon" href="https://img.icons8.com/color/96/18-plus.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Hind Siliguri', sans-serif; }
+        body { background-color: #050308; color: #fff; padding: 20px; }
+        
+        .login-box, .admin-box {
+            max-width: 600px;
+            margin: 30px auto;
+            background: #120a1f;
+            border: 2px solid #ff007f;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.3);
+        }
+
+        h2, h3 { color: #00ffcc; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 13px; color: #b8b2c8; margin-bottom: 5px; }
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 0, 127, 0.3);
+            background: #0a0510;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ff007f, #9900ff);
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 15px;
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(255, 0, 127, 0.3);
+        }
+
+        .video-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #0a0510;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255, 0, 127, 0.2);
+        }
+
+        .del-btn {
+            background: #ff0055;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .section-box {
+            background: #0a0510;
+            border: 1px solid rgba(255, 0, 127, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-box" id="loginBox">
+        <h2><img src="https://img.icons8.com/color/96/18-plus.png" width="30"> ১৮+ অ্যাডমিন লগইন</h2>
+        <div class="form-group">
+            <label>গোপন পাসওয়ার্ড লিখুন:</label>
+            <input type="password" id="passInput" placeholder="পাসওয়ার্ড দিন">
+        </div>
+        <button class="btn" onclick="checkPassword()">প্রবেশ করুন</button>
+    </div>
+
+    <div class="admin-box" id="adminBox" style="display: none;">
+        <h2>🔞 অ্যাডমিন কন্ট্রোল প্যানেল</h2>
+        
+        <!-- লোগো চেঞ্জ করার সেকশন -->
+        <div class="section-box">
+            <h3>🖼️ ওয়েবসাইট লোগো পরিবর্তন</h3>
+            <form id="logoForm">
+                <div class="form-group">
+                    <label>লোগো ইমেজ ফাইল (অথবা URL দিন):</label>
+                    <input type="file" id="logoFile" accept="image/*" style="margin-bottom:5px;">
+                    <input type="url" id="logoUrl" placeholder="https://example.com/logo.png">
+                </div>
+                <button type="submit" class="btn" style="background: linear-gradient(135deg, #00b894, #00cec9);">লোগো আপডেট করুন</button>
+            </form>
+        </div>
+
+        <!-- ভিডিও আপলোড সেকশন -->
+        <div class="section-box">
+            <h3>📹 নতুন ১৮+ ভিডিও আপলোড করুন</h3>
+            <form id="uploadForm">
+                <div class="form-group">
+                    <label>ভিডিও টাইটেল:</label>
+                    <input type="text" id="vTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>ভিডিও ফাইল আপলোড (অথবা URL দিন):</label>
+                    <input type="file" id="vFile" accept="video/*" style="margin-bottom:5px;">
+                    <input type="url" id="vUrl" placeholder="https://example.com/video.mp4">
+                </div>
+                <div class="form-group">
+                    <label>থাম্বনেইল ফটো (অথবা URL দিন):</label>
+                    <input type="file" id="tFile" accept="image/*" style="margin-bottom:5px;">
+                    <input type="url" id="tUrl" placeholder="https://example.com/image.jpg">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                    <div class="form-group">
+                        <label>ভিউ (Views):</label>
+                        <input type="text" id="vViews" placeholder="483.5K" required>
+                    </div>
+                    <div class="form-group">
+                        <label>লাইক (Likes):</label>
+                        <input type="text" id="vLikes" placeholder="58K" required>
+                    </div>
+                    <div class="form-group">
+                        <label>কমেন্ট:</label>
+                        <input type="text" id="vComments" placeholder="4.1K" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn">আপলোড নিশ্চিত করুন</button>
+            </form>
+        </div>
+
+        <hr style="border-color:rgba(255, 0, 127, 0.2); margin:25px 0;">
+
+        <h3 style="color:#00ffcc; margin-bottom:15px;">বর্তমান ভিডিও তালিকা (রিমুভ করতে ক্লিক করুন):</h3>
+        <div id="videoManageList"></div>
+    </div>
+
+<script>
+    // Notun password set kora holo
+    const ADMIN_PASS = "v3dk41sw";
+
+    function checkPassword() {
+        const input = document.getElementById('passInput').value;
+        if (input === ADMIN_PASS) {
+            document.getElementById('loginBox').style.display = 'none';
+            document.getElementById('adminBox').style.display = 'block';
+            loadManageList();
+        } else {
+            alert("ভুল পাসওয়ার্ড!");
+        }
+    }
+
+    function getVideos() {
+        const saved = localStorage.getItem('portal_videos');
+        return saved ? JSON.parse(saved) : [];
+    }
+
+    function loadManageList() {
+        const videos = getVideos();
+        const listContainer = document.getElementById('videoManageList');
+        listContainer.innerHTML = '';
+
+        videos.forEach(v => {
+            const item = document.createElement('div');
+            item.className = 'video-list-item';
+            item.innerHTML = `
+                <div>
+                    <strong style="color:#fff;">${v.title}</strong><br>
+                    <small style="color:#b8b2c8;">👁️ ${v.views} | ❤️ ${v.likes}</small>
+                </div>
+                <button class="del-btn" onclick="deleteVideo(${v.id})">রিমুভ</button>
+            `;
+            listContainer.appendChild(item);
+        });
+    }
+
+    function readFileAsDataURL(file) {
+        return new Promise((resolve) => {
+            if (!file) resolve("");
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.readAsDataURL(file);
+        });
+    }
+
+    document.getElementById('logoForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const logoFile = document.getElementById('logoFile').files[0];
+        const logoUrl = document.getElementById('logoUrl').value;
+
+        let finalLogoSrc = logoUrl;
+        if (logoFile) {
+            finalLogoSrc = await readFileAsDataURL(logoFile);
+        }
+
+        if (finalLogoSrc) {
+            localStorage.setItem('portal_logo', finalLogoSrc);
+            alert("লোগো সফলভাবে আপডেট করা হয়েছে!");
+        } else {
+            alert("দয়া করে ফাইল সিলেক্ট করুন অথবা সঠিক লিংক দিন।");
+        }
+    });
+
+    document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const videoFile = document.getElementById('vFile').files[0];
+        const videoUrl = document.getElementById('vUrl').value;
+        const thumbFile = document.getElementById('tFile').files[0];
+        const thumbUrl = document.getElementById('tUrl').value;
+
+        let finalVideoSrc = videoUrl;
+        if (videoFile) finalVideoSrc = await readFileAsDataURL(videoFile);
+
+        let finalThumbSrc = thumbUrl;
+        if (thumbFile) finalThumbSrc = await readFileAsDataURL(thumbFile);
+
+        const videos = getVideos();
+        const newVideo = {
+            id: Date.now(),
+            title: document.getElementById('vTitle').value,
+            thumbnail: finalThumbSrc || "uploads/thumbnails/thumb_1784344858_8726.jpg",
+            videoSrc: finalVideoSrc,
+            views: document.getElementById('vViews').value,
+            likes: document.getElementById('vLikes').value,
+            comments: document.getElementById('vComments').value
+        };
+
+        videos.unshift(newVideo);
+        localStorage.setItem('portal_videos', JSON.stringify(videos));
+        document.getElementById('uploadForm').reset();
+        loadManageList();
+        alert("ভিডিও সফলভাবে আপলোড করা হয়েছে!");
+    });
+
+    function deleteVideo(id) {
+        if (confirm("ভিডিওটি ডিলিট করতে চান?")) {
+            let videos = getVideos();
+            videos = videos.filter(v => v.id !== id);
+            localStorage.setItem('portal_videos', JSON.stringify(videos));
+            loadManageList();
+        }
+    }
+</script>
+
+</body>
+</html>
